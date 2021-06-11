@@ -6,7 +6,6 @@ import (
 	"gin-DevOps/model"
 	"gin-DevOps/model/request"
 	"gin-DevOps/model/response"
-	"gin-DevOps/service"
 	"gin-DevOps/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -92,13 +91,13 @@ func CreateUser(c *gin.Context) {
 		response.FailWithMessage("注册失败,"+err.Error(), c)
 		return
 	}
-	user := &model.User{Username: U.User.Username, Password: U.User.Password, Email: U.User.Email, Phone: U.User.Phone}
-	err, userReturn := service.Register(*user)
-	if err != nil {
+	user := &model.User{Username: U.Username, Password: U.Password, Email: U.Email, Phone: U.Phone}
+	user.Password = utils.MD5V([]byte(user.Password))
+	if err = config.GdoDb.Create(&user).Error; err != nil {
 		config.GdoLog.Error("注册失败", zap.Any("err", err))
 		response.FailWithMessage("注册失败,"+err.Error(), c)
 	} else {
-		response.OkWithDetailed(response.RegisterUserResponse{User: userReturn}, "注册成功", c)
+		response.OkWithMessage("注册成功", c)
 	}
 }
 
@@ -111,4 +110,30 @@ func DeleteUser(c *gin.Context){
 		return
 	}
 	response.OkWithMessage("删除成功", c)
+}
+
+
+func CreateGroup(c *gin.Context){
+	var G request.GroupUser
+	err := c.ShouldBindJSON(&G)
+	if err != nil {
+		config.GdoLog.Error("创建失败",zap.Any("err",err))
+		response.FailWithMessage("创建失败,"+err.Error(), c)
+		return
+	}
+	group := &model.Group{
+		Name:     G.Name,
+		Desc:     G.Desc,
+	}
+	if err = config.GdoDb.Create(&group).Error; err != nil{
+		config.GdoLog.Error("创建失败", zap.Any("err", err))
+		response.FailWithMessage("创建失败,"+err.Error(), c)
+	}else {
+		response.OkWithMessage("创建成功", c)
+	}
+	//config.GdoDb.Where("name = ?", G.Name).First(&group)
+	//if !reflect.DeepEqual(group, model.Group{}){
+	//	config.GdoLog.Error("创建失败,组名已存在")
+	//	response.FailWithMessage("创建失败,组名已存在", c)
+	//}
 }

@@ -22,6 +22,8 @@ func UserRouters(Router *gin.RouterGroup) {
 		ApiRouter.GET("user", api.ListUser)
 		ApiRouter.POST("user", api.CreateUser)
 		ApiRouter.DELETE("/user/:id", api.DeleteUser)
+
+		ApiRouter.POST("/group", api.CreateGroup)
 		//ApiRouter.POST("/user/:name/*action", api.CreateUser)
 	}
 }

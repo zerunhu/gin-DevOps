@@ -6,33 +6,30 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"go.uber.org/zap"
-	"os"
 )
 
 func mysqlAutoMigrate(db *gorm.DB) {
-	ok := db.HasTable(
+	db.AutoMigrate(
 		&model.User{},
+		&model.Group{},
 	)
-	if !ok{
-		err := db.CreateTable(
-			&model.User{},
-		)
-		if err != nil {
-			config.GdoLog.Error("migrate table failed", zap.Any("err", err))
-			os.Exit(0)
-		}
-	}
+	//if err != nil {
+	//	fmt.Println(err.Error)
+	//	config.GdoLog.Error("migrate table failed", zap.Any("err", err))
+	//	os.Exit(0)
+	//}
+
 	config.GdoLog.Info("migrate table success")
 }
 
 func GormMysql() *gorm.DB {
 	m := config.GdoConfig.Mysql
 	mysqlConfig := ""
-	for index, config := range m.Config{
+	for index, conf := range m.Config{
 		if index == 0{
-			mysqlConfig += config
+			mysqlConfig += conf
 		}else {
-			mysqlConfig += "&" + config
+			mysqlConfig += "&" + conf
 		}
 	}
 	mysqlClient := m.Username + ":" + m.Password + "@tcp(" + m.Host + ":" + m.Port + ")/" + m.Dbname + "?" + mysqlConfig
