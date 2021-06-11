@@ -1,0 +1,5 @@
+2021/06/09-20:11:52	ERROR	api/user.go:73	注册失败	{"err": "注册失败,Key: 'Create.Phone' Error:Field validation for 'Phone' failed on the 'required' tag\nKey: 'Create.Email' Error:Field validation for 'Email' failed on the 'required' tag"}
+2021/06/09-20:12:22	ERROR	api/user.go:73	注册失败	{"err": "注册失败,Key: 'Create.Phone' Error:Field validation for 'Phone' failed on the 'required' tag\nKey: 'Create.Email' Error:Field validation for 'Email' failed on the 'required' tag"}
+2021/06/09-20:17:18	ERROR	api/user.go:81	注册失败	{"err": "用户名已注册"}
+2021/06/09-20:20:54	ERROR	api/user.go:81	注册失败	{"err": "用户名已注册"}
+2021/06/09-20:29:05	ERROR	api/user.go:81	注册失败	{"err": "用户名已注册"}

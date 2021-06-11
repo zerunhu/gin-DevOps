@@ -1,0 +1,31 @@
+2021/06/10-16:24:11	ERROR	initialize/gorm.go:17	migrate table failed	{"err": {"Value":{"id":0,"CreatedAt":"0001-01-01T00:00:00Z","UpdatedAt":"0001-01-01T00:00:00Z","Username":"","Password":"","Phone":"","Email":""},"Error":null,"RowsAffected":0}}
+2021/06/10-16:24:40	ERROR	initialize/gorm.go:17	migrate table failed	{"err": {"Value":{"id":0,"CreatedAt":"0001-01-01T00:00:00Z","UpdatedAt":"0001-01-01T00:00:00Z","Username":"","Password":"","Phone":"","Email":""},"Error":null,"RowsAffected":0}}
+2021/06/10-16:37:09	ERROR	initialize/gorm.go:17	migrate table failed	{"err": {"Value":{"id":0,"CreatedAt":"0001-01-01T00:00:00Z","UpdatedAt":"0001-01-01T00:00:00Z","Username":"","Password":"","Phone":"","Email":""},"Error":null,"RowsAffected":0}}
+2021/06/10-16:38:23	ERROR	initialize/gorm.go:17	migrate table failed	{"err": {"Value":{"id":0,"CreatedAt":"0001-01-01T00:00:00Z","UpdatedAt":"0001-01-01T00:00:00Z","Username":"","Password":"","Phone":"","Email":""},"Error":null,"RowsAffected":0}}
+2021/06/10-16:38:54	ERROR	initialize/gorm.go:17	migrate table failed	{"err": {"Value":{"id":0,"CreatedAt":"0001-01-01T00:00:00Z","UpdatedAt":"0001-01-01T00:00:00Z","Username":"","Password":"","Phone":"","Email":""},"Error":{"Number":1050,"Message":"Table 'app_user' already exists"},"RowsAffected":0}}
+2021/06/10-16:40:40	ERROR	initialize/gorm.go:21	migrate table failed	{"err": {"Value":{"id":0,"CreatedAt":"0001-01-01T00:00:00Z","UpdatedAt":"0001-01-01T00:00:00Z","Username":"","Password":"","Phone":"","Email":""},"Error":null,"RowsAffected":0}}
+2021/06/10-16:41:17	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-16:49:17	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-16:50:11	ERROR	api/user.go:81	注册失败	{"err": "用户名已注册"}
+2021/06/10-16:50:29	ERROR	api/user.go:81	注册失败	{"err": "用户名已注册"}
+2021/06/10-16:55:44	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-16:55:48	ERROR	api/user.go:81	注册失败	{"err": "用户名已注册"}
+2021/06/10-16:57:01	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-16:57:03	ERROR	api/user.go:81	注册失败	{"err": "用户名已注册"}
+2021/06/10-16:57:21	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-17:02:36	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-17:02:51	ERROR	api/user.go:79	注册失败	{"err": "用户名已注册"}
+2021/06/10-18:39:28	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-18:39:44	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-18:40:38	ERROR	api/user.go:79	注册失败	{"err": "用户名已注册"}
+2021/06/10-18:40:49	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-18:40:51	ERROR	api/user.go:71	注册失败	{"err": "注册失败,Key: 'CreateUser.User.Phone' Error:Field validation for 'Phone' failed on the 'required' tag"}
+2021/06/10-18:43:23	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-18:43:24	ERROR	api/user.go:71	注册失败	{"err": "注册失败,Key: 'CreateUser.User.Phone' Error:Field validation for 'Phone' failed on the 'len' tag\nKey: 'CreateUser.User.Email' Error:Field validation for 'Email' failed on the 'email' tag"}
+2021/06/10-19:13:20	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-19:14:13	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-19:35:31	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-19:37:25	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-19:38:49	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-19:43:17	INFO	initialize/gorm.go:25	migrate table success
+2021/06/10-20:24:40	INFO	initialize/gorm.go:25	migrate table success

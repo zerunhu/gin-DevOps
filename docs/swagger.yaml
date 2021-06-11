@@ -1,0 +1,57 @@
+basePath: 这里写base path
+definitions:
+  model.Person:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - name
+    - password
+    type: object
+host: 这里写接口服务的host
+info:
+  contact:
+    email: support@swagger.io
+    name: 胡泽润
+    url: http://www.swagger.io/support
+  description: OWG DevOps Platform
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: DevOps
+  version: 0.1.0
+paths:
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: 可按社区按时间或分数排序查询帖子列表接口
+      parameters:
+      - description: JWT 用户令牌
+        in: header
+        name: Authorization
+        type: string
+      - description: 用户名, 用户密码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Person'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"success":true,"data":{},"msg":"创建成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 登录接口
+      tags:
+      - login相关接口
+swagger: "2.0"
