@@ -1,5 +1,4 @@
 package main
-// test
 // @title DevOps
 // @version 0.1.0
 // @description OWG DevOps Platform
