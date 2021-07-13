@@ -49,6 +49,11 @@ func FailWithMessage(message string, c *gin.Context) {
 	Result(ERROR, map[string]interface{}{}, message, c)
 }
 
+func FailWithErrMessage(message string, err error, c *gin.Context) {
+	message = message + ", " + err.Error()
+	Result(ERROR, map[string]interface{}{}, message, c)
+}
+
 func FailWithDetailed(data interface{}, message string, c *gin.Context) {
 	Result(ERROR, data, message, c)
 }

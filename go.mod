@@ -1,4 +1,5 @@
 module gin-DevOps
+
 // goland中File->Settings->Go->Go Modules->Enable go modules integration勾选
 // go env的GO111MODULE设置为ON
 // go mod download即可把go.mod文件中的所有模块下载
@@ -6,6 +7,8 @@ go 1.15
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
+	github.com/casbin/casbin/v2 v2.31.3
+	github.com/casbin/gorm-adapter/v3 v3.2.12
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.4.9
@@ -45,4 +48,6 @@ require (
 	golang.org/x/tools v0.1.2 // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gorm.io/driver/mysql v1.0.1
+	gorm.io/gorm v1.21.9
 )

@@ -14,6 +14,7 @@ func SetupRouter() *gin.Engine {
 		routers.SwagRouters(PublicGroup)
 	}
 	PrivateGroup := Router.Group("api")
+
 	PrivateGroup.Use(middleware.JWTAuthMiddleware())
 	{
 		routers.UserRouters(PrivateGroup)

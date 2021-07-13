@@ -1,2 +1,0 @@
-2021/06/03-10:26:44	ERROR	api/login.go:36	登录失败	{"err": "登录失败,Key: 'Person.Name' Error:Field validation for 'Name' failed on the 'required' tag"}
-2021/06/03-10:26:55	ERROR	api/login.go:36	登录失败	{"err": "登录失败,Key: 'Person.Name' Error:Field validation for 'Name' failed on the 'required' tag"}

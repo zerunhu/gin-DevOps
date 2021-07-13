@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"fmt"
 )
 
 //@author: [piexlmax](https://github.com/piexlmax)
@@ -10,7 +11,9 @@ import (
 //@description: md5加密
 //@param: str []byte
 //@return: string
-
+func init(){
+	fmt.Println("init")
+}
 func MD5V(str []byte) string {
 	h := md5.New()
 	h.Write(str)

@@ -6,11 +6,16 @@ import (
 	"gin-DevOps/model"
 	"gin-DevOps/model/request"
 	"gin-DevOps/model/response"
-	"gin-DevOps/utils"
+	"gin-DevOps/service"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"net/http"
+	"strings"
 )
+
+var (
+	err error
+)
+
 // LoginHandler 登录接口
 // @Summary 登录接口
 // @Description 可按社区按时间或分数排序查询帖子列表接口
@@ -23,117 +28,244 @@ import (
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"创建成功"}"
 // @Router /api/login [post]
 func Login(c *gin.Context) {
-	// 用户发送用户名和密码过来
 	var user request.Login
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
-		config.GdoLog.Error("登录失败",zap.Any("err",err))
-		response.FailWithMessage("登录失败,"+err.Error(), c)
+		response.FailWithErrMessage("Login failed", err, c)
 		return
 	}
-	// 校验用户名和密码是否正确
-	sqlUser := model.User{}
-	config.GdoDb.Where("username = ?", user.Username).Find(&sqlUser)
-	password := utils.MD5V([]byte(user.Password))
-	if password == sqlUser.Password {
-		// 生成Token
-		tokenString, _ := middleware.GenToken(user.Username)
-		c.JSON(http.StatusOK, gin.H{
-			"code": 200,
-			"msg":  "success",
-			"token": tokenString,
-		})
+	err = service.Login(user)
+	if err != nil {
+		config.GdoLog.Error("Login failed", zap.Any("err",err))
+		response.FailWithErrMessage("Login failed", err, c)
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"code": 500,
-		"msg":  "账号或者密码错误",
-	})
-	return
+	tokenString, _ := middleware.GenToken(user.Username)
+	data := map[string]string{
+		"token": tokenString,
+	}
+	response.OkWithDetailed(data, "Login success", c)
 }
 
 func UserInfo(c *gin.Context) {
-	username := c.MustGet("username").(string)
-	roles := []string{"GROUP_PERMISSION_UPDATE","USERS_LIST","GROUPS_UPDATE","OPERATIONPLAN_CREATE","PROD_WORLD_LIST","PERMISSION_LIST","QA_WORLD_DELETE","PROD_WORLD_HISTORY","OPERATIONPLAN_RETRIEVE","PROD_WORLD_DELETE","PROD_WORLD_CLIENTLIST","PROD_WORLD_SERVERLISTONLINE","CIPROCESS_CREATE","OPERATIONPLAN_UPDATE","DEV_WORLD_HISTORY","QA_WORLD_LIST","QA_WORLD_STATUS","PROD_WORLD_CLEARDEADNUMBER","PROD_WORLD_CREATE","USERS_DELETE","PROD_WORLD_RESTART","QA_WORLD_HISTORY","DEV_NODEGROUP_LIST","CI_IMAGE_LIST","DEV_WORLD_STATUS","USERS_CREATE","GROUP_USER_DELETE","CIPROCESS_DELETE","QA_WORLD_RESTART","DEV_WORLD_RESTART","PROD_WORLD_UPDATE","PROD_WORLD_STATUS","QA_WORLD_CREATE","GROUPS_LIST","DEV_WORLD_BACKUP","DEV_NODEGROUP_UPDATE","PROD_WORLD_SERVERLIST","CIPROCESS_PUSH","PROD_WORLD_NOTICE","CIPROCESS_LIST","QA_WORLD_UPDATE","PROD_WORLD_BACKUP","DEV_WORLD_CREATE","QA_WORLD_BACKUP","OPERATIONPLAN_COMPLETE","GROUP_PERMISSION_LIST","PROD_WORLD_SECURITYGROUP","PROD_WORLD_AUTOCLEARDEADNUMBER","GROUP_USER_LIST","SVNINFO_LIST","GROUPS_DELETE","PERMISSION_CREATE","PERMISSION_DELETE","OPERATIONPLAN_LIST","DEV_WORLD_UPDATE","OPERATIONPLAN_DELETE","PROD_NODEGROUP_UPDATE","GROUP_USER_CREATE","PROD_NODEGROUP_LIST","DEV_WORLD_DELETE","GROUPS_CREATE","DEV_WORLD_LIST","CIPROCESS_BUILD"}
-	c.JSON(http.StatusOK, gin.H{
-		"user_name": username,
-		"roles": roles,
-	})
+	username, _ := c.Get("username")
+	permissions, err := service.GetUserInfo(username.(string))
+	if err != nil{
+		config.GdoLog.Error("Get userinfo failed", zap.Any("err",err))
+		response.FailWithErrMessage("Get userinfo failed", err, c)
+		return
+	}
+	data := map[string]interface{}{
+		"username": username,
+		"permissions": permissions,
+	}
+	response.OkWithDetailed(data, "Get userinfo success", c)
 }
 
 func ListUser(c *gin.Context) {
-	var users []model.User
-	if err := config.GdoDb.Find(&users).Error; err != nil {
-		config.GdoLog.Error("获取用户列表失败",zap.Any("err",err))
-		response.FailWithMessage("获取用户列表失败,"+err.Error(), c)
+	users, err := service.ListUser()
+	if err != nil{
+		config.GdoLog.Error("List user failed", zap.Any("err",err))
+		response.FailWithErrMessage("List user failed", err, c)
 		return
 	}
-	group := "dev"
-	var responseUser []response.UserListResponse
-	for _, user := range users{
-		u := response.UserListResponse{
-			Id:    user.ID,
-			Name:  user.Username,
-			Email: user.Email,
-			Phone: user.Phone,
-			Group: group,
-		}
-		responseUser = append(responseUser, u)
-	}
-	response.OkWithDetailed(responseUser, "获取用户列表成功", c)
+	response.OkWithDetailed(users, "List user success", c)
 }
 
 func CreateUser(c *gin.Context) {
-	var U request.CreateUser
-	err := c.ShouldBindJSON(&U)
+	var user request.User
+	err = c.ShouldBindJSON(&user)
 	if err != nil {
-		config.GdoLog.Error("注册失败",zap.Any("err",err))
-		response.FailWithMessage("注册失败,"+err.Error(), c)
+		response.FailWithErrMessage("Create user failed", err, c)
 		return
 	}
-	user := &model.User{Username: U.Username, Password: U.Password, Email: U.Email, Phone: U.Phone}
-	user.Password = utils.MD5V([]byte(user.Password))
-	if err = config.GdoDb.Create(&user).Error; err != nil {
-		config.GdoLog.Error("注册失败", zap.Any("err", err))
-		response.FailWithMessage("注册失败,"+err.Error(), c)
-	} else {
-		response.OkWithMessage("注册成功", c)
+	err = service.CreateUser(user)
+	if err != nil {
+		config.GdoLog.Error("Create user failed", zap.Any("err", err))
+		response.FailWithErrMessage("Create user failed", err, c)
+		return
 	}
+	response.OkWithMessage("Create user success", c)
+}
+
+func UpdateUser(c *gin.Context){
+	userId := c.Param("uid")
+	var user request.User
+	err = c.ShouldBindJSON(&user)
+	if err != nil {
+		response.FailWithErrMessage("Update user failed", err, c)
+		return
+	}
+	err = service.UpdateUser(userId, user)
+	if err != nil {
+		config.GdoLog.Error("Update user failed", zap.Any("err", err))
+		response.FailWithErrMessage("Update user failed", err, c)
+		return
+	}
+	response.OkWithMessage("Update user success", c)
 }
 
 func DeleteUser(c *gin.Context){
-	var user model.User
-	userId := c.Param("id")
-	if err := config.GdoDb.Where("id = ?", userId).Delete(&user).Error; err != nil {
-		config.GdoLog.Error("删除用户失败",zap.Any("err",err))
-		response.FailWithMessage("删除用户失败,"+err.Error(), c)
+	userId := c.Param("uid")
+	err = service.DeleteUser(userId)
+	if err != nil {
+		response.FailWithErrMessage("Delete user failed", err, c)
 		return
 	}
-	response.OkWithMessage("删除成功", c)
+	response.OkWithMessage("Delete user success", c)
 }
 
 
 func CreateGroup(c *gin.Context){
-	var G request.GroupUser
-	err := c.ShouldBindJSON(&G)
+	var group request.Group
+	err = c.ShouldBindJSON(&group)
 	if err != nil {
-		config.GdoLog.Error("创建失败",zap.Any("err",err))
-		response.FailWithMessage("创建失败,"+err.Error(), c)
+		response.FailWithErrMessage("Create group failed", err, c)
 		return
 	}
-	group := &model.Group{
-		Name:     G.Name,
-		Desc:     G.Desc,
+	err = service.CreateGroup(group)
+	if err != nil {
+		config.GdoLog.Error("Create group failed", zap.Any("err", err))
+		response.FailWithErrMessage("Create group failed", err, c)
+		return
 	}
-	if err = config.GdoDb.Create(&group).Error; err != nil{
-		config.GdoLog.Error("创建失败", zap.Any("err", err))
-		response.FailWithMessage("创建失败,"+err.Error(), c)
-	}else {
-		response.OkWithMessage("创建成功", c)
+	response.OkWithMessage("Create group success", c)
+}
+
+func ListGroup(c *gin.Context) {
+	groups, err := service.ListGroup()
+	if err != nil{
+		config.GdoLog.Error("List group failed", zap.Any("err", err))
+		response.FailWithErrMessage("List group failed", err, c)
+		return
 	}
-	//config.GdoDb.Where("name = ?", G.Name).First(&group)
-	//if !reflect.DeepEqual(group, model.Group{}){
-	//	config.GdoLog.Error("创建失败,组名已存在")
-	//	response.FailWithMessage("创建失败,组名已存在", c)
-	//}
+	response.OkWithDetailed(groups, "List group success", c)
+}
+
+func UpdateGroup(c *gin.Context){
+	groupId := c.Param("gid")
+	var group model.Group
+	err = c.ShouldBindJSON(&group)
+	if err != nil {
+		response.FailWithErrMessage("Update group failed", err, c)
+		return
+	}
+	err = service.UpdateGroup(groupId, group)
+	if err != nil {
+		config.GdoLog.Error("Update group failed", zap.Any("err", err))
+		response.FailWithErrMessage("Update group failed", err, c)
+		return
+	}
+	response.OkWithMessage("Update group success", c)
+}
+
+func DeleteGroup(c *gin.Context){
+	groupId := c.Param("gid")
+	err = service.DeleteGroup(groupId)
+	if err != nil{
+		config.GdoLog.Error("Delete group failed", zap.Any("err", err))
+		response.FailWithErrMessage("Delete group failed", err, c)
+		return
+	}
+	response.OkWithMessage("Delete group success", c)
+}
+
+
+
+func ListGroupUser(c *gin.Context){
+	groupId := c.Param("gid")
+	users, err := service.ListGroupUser(groupId)
+	if err != nil{
+		config.GdoLog.Error("List users of the group failed", zap.Any("err", err))
+		response.FailWithErrMessage("List users of the group failed", err, c)
+		return
+	}
+	response.OkWithDetailed(users, "List users of the group success", c)
+}
+
+func CreateGroupUser(c *gin.Context){
+	userId := c.Param("uid")
+	groupId := c.Param("gid")
+	err = service.CreateGroupUser(userId, groupId)
+	if err != nil{
+		config.GdoLog.Error("Create users of the group failed", zap.Any("err", err))
+		response.FailWithErrMessage("Create users of the group failed", err, c)
+		return
+	}
+	response.OkWithMessage("Create users of the group success", c)
+}
+
+func DeleteGroupUser(c *gin.Context){
+	groupId := c.Param("gid")
+	usersId, _ := c.GetQuery("ids")
+	err = service.DeleteGroupUser(strings.Split(usersId, ","), groupId)
+	if err != nil{
+		config.GdoLog.Error("Delete users of the group failed", zap.Any("err", err))
+		response.FailWithErrMessage("Delete users of the group failed", err, c)
+		return
+	}
+	response.OkWithMessage("Delete users of the group success", c)
+}
+
+
+
+func ListPermission(c *gin.Context){
+	groups, err := service.ListPermission()
+	if err != nil{
+		config.GdoLog.Error("List permission failed", zap.Any("err", err))
+		response.FailWithErrMessage("List permission failed", err, c)
+		return
+	}
+	response.OkWithDetailed(groups, "List permission success", c)
+}
+
+func CreatePermission(c *gin.Context){
+	var permission request.Permission
+	err = c.ShouldBindJSON(&permission)
+	if err != nil {
+		response.FailWithErrMessage("Create permission failed", err, c)
+		return
+	}
+	err = service.CreatePermission(permission)
+	if err != nil {
+		config.GdoLog.Error("Create permission failed", zap.Any("err", err))
+		response.FailWithErrMessage("Create permission failed", err, c)
+		return
+	}
+	response.OkWithMessage("Create permission success", c)
+}
+
+func ListGroupPermission(c *gin.Context){
+	groupId := c.Param("gid")
+	permissions, err := service.ListGroupPermission(groupId)
+	if err != nil{
+		config.GdoLog.Error("List permissions of the group failed", zap.Any("err", err))
+		response.FailWithErrMessage("List permissions of the group failed", err, c)
+		return
+	}
+	response.OkWithDetailed(permissions, "List permissions of the group success", c)
+}
+
+func CreateGroupPermission(c *gin.Context){
+	permissionId := c.Param("pid")
+	groupId := c.Param("gid")
+	err = service.CreateGroupPermission(permissionId, groupId)
+	if err != nil{
+		config.GdoLog.Error("Create permissions of the group failed", zap.Any("err", err))
+		response.FailWithErrMessage("Create permissions of the group failed", err, c)
+		return
+	}
+	response.OkWithMessage("Create permissions of the group success", c)
+}
+
+func DeleteGroupPermission(c *gin.Context){
+	groupId := c.Param("gid")
+	permissionsId, _ := c.GetQuery("ids")
+	err = service.DeleteGroupPermission(strings.Split(permissionsId, ","), groupId)
+	if err != nil{
+		config.GdoLog.Error("Delete permissions of the group failed", zap.Any("err", err))
+		response.FailWithErrMessage("Delete permissions of the group failed", err, c)
+		return
+	}
+	response.OkWithMessage("Delete permissions of the group success", c)
 }

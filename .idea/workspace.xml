@@ -11,15 +11,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="852a16bd-6a04-4c4a-bc99-ce216e1b7157" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/config/casbin.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/operate/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/global.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/initialize/gorm.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/gorm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initialize/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/initialize/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/2021-06-01.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/2021-06-02.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/2021-06-03.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/request/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/request/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/response/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/response/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/response/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/response/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/md5.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/md5.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,27 +63,41 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\gin-DevOps\service" />
+      <recent name="E:\gin-DevOps\resource" />
       <recent name="E:\gin-DevOps" />
+      <recent name="E:\gin-DevOps\config" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build main.go">
-    <configuration name="go build gorm.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="gin-DevOps" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/initialize/gorm.go" />
-      <directory value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="gin-DevOps" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
       <filePath value="$PROJECT_DIR$/main.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build test1.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="gin-DevOps" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/test1.go" />
+      <package value="gin-DevOps" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build test2.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="gin-DevOps" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/test2.go" />
+      <package value="gin-DevOps" />
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
@@ -81,17 +109,31 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="go build user.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="gin-DevOps" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/api/user.go" />
+      <package value="gin-DevOps" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Build.go build user.go" />
+        <item itemvalue="Go Build.go build test2.go" />
         <item itemvalue="Go Build.go build test.go" />
-        <item itemvalue="Go Build.go build gorm.go" />
+        <item itemvalue="Go Build.go build test1.go" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.conf" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -103,30 +145,63 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1623414128597">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1623917252081">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1623414128597" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1623414128597">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1623917252081" />
+    <state x="737" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1623928812022">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1623414128597" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1623414128597">
+    <state x="737" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1623928812022" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1625733077559">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1623414128597" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1623414128597">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1625733077559" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1625733077559">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1623414128597" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1625733077559" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1625733077559">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1625733077559" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1625733077559">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1625733077559" />
+    <state width="1877" height="328" key="GridCell.Tab.1.bottom" timestamp="1625660646573">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="328" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1625660646573" />
+    <state width="1877" height="328" key="GridCell.Tab.1.center" timestamp="1625660646572">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="328" key="GridCell.Tab.1.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1625660646572" />
+    <state width="1877" height="328" key="GridCell.Tab.1.left" timestamp="1625660646572">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="328" key="GridCell.Tab.1.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1625660646572" />
+    <state width="1877" height="328" key="GridCell.Tab.1.right" timestamp="1625660646573">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="328" key="GridCell.Tab.1.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1625660646573" />
     <state x="461" y="164" key="SettingsEditor" timestamp="1623398689464">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1623398689464" />
+    <state x="662" y="252" width="596" height="536" key="find.popup" timestamp="1623759051085">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="662" y="252" width="596" height="536" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1623759051085" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1624014042342">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1624014042342" />
   </component>
 </project>

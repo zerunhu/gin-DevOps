@@ -1,9 +1,9 @@
 package config
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+	"gorm.io/gorm"
 )
 
 var (
@@ -14,7 +14,8 @@ var (
 )
 
 type Server struct {
-	Zap   Zap   `mapstructure:"zap" json:"zap" yaml:"zap"`
-	Mysql Mysql `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
-	JWT   JWT   `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
+	Zap      Zap      `mapstructure:"zap" json:"zap" yaml:"zap"`
+	Mysql    Mysql    `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
+	JWT      JWT      `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
+	Casbin   Casbin   `mapstructure:"casbin" json:"casbin" yaml:"casbin"`
 }

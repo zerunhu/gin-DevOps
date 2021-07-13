@@ -24,3 +24,6 @@ mysql:
     - charset=utf8
     - parseTime=True
     - loc=Local
+
+casbin:
+  model-path: './resource/rbac_model.conf'

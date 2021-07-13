@@ -27,5 +27,9 @@ func main() {
 	if err := r.Run(); err != nil {
 		fmt.Printf("startup service failed, err:%v\n", err)
 	}
-	defer config.GdoDb.Close()
+	if config.GdoDb != nil {
+		// 程序结束前关闭数据库链接
+		db, _ := config.GdoDb.DB()
+		defer db.Close()
+	}
 }

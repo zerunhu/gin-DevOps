@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	mysql2 "gorm.io/driver/mysql"
+
+	//_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gorm.io/gorm"
 )
 
 type User struct {
-	ID        uint
+	ID        uint   `gorm:"primaryKey"`
 	Username  string `gorm:"size:32;not null;unique;comment:'用户名'"`
 	Groups     []Group `gorm:"many2many:user_group;"`
 }
@@ -16,7 +18,7 @@ func (User) TableName() string {
 }
 
 type Group struct {
-	ID        uint
+	ID        uint  `gorm:"primaryKey"`
 	Name string `gorm:"size:32 comment:'组名'"`
 }
 func (Group) TableName() string {
@@ -34,25 +36,25 @@ func (Group) TableName() string {
 
 
 func main() {
-	db, err := gorm.Open("mysql", "root:root123@tcp(172.20.1.167:3306)/test1?charset=utf8&parseTime=True&loc=Local")
+	mysqlClient:="root:root123@tcp(172.20.1.167:3306)/test1?charset=utf8&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql2.Open(mysqlClient))
 	if err != nil {
 		fmt.Println(err)
 	}
-	db.DropTable(&User{},&Group{})
-	err = db.AutoMigrate(&User{},&Group{}).Error
+	err = db.AutoMigrate(&User{},&Group{})
 	if err != nil{
 		fmt.Println(err)
 	}
 
-	//a := Group{
-	//	Name:  "admin",
-	//}
-	//db.Save(&a)
-	//b := User{
-	//	Username:  "ly",
-	//}
-	//db.Save(&b)
-
+	a := Group{
+		Name:  "admin",
+	}
+	db.Save(&a)
+	b := User{
+		Username:  "ly",
+	}
+	db.Save(&b)
+//https://gorm.io/zh_CN/docs/associations.html#Association-Mode
 //err = db.Model(&user).Association("groups").Append(&group).Error
 //err = db.Model(&user).Association("groups").Append(&groups).Error
 
@@ -63,14 +65,16 @@ func main() {
 
 //err = db.Model(&user).Association("groups").Replace(&group).Error 改是把原来的换成只有里面的
 //err = db.Model(&user).Association("groups").Replace(&groups).Error
-    //var user User
-	//var group1 Group
-	//db.First(&user)
-	//db.First(&group1)
-	//err = db.Model(&user).Association("groups").Replace(&group1).Error
-	//if err != nil{
-	//	fmt.Println(err)
-	//}
+    var user User
+	var group1 Group
+	db.First(&user)
+	db.First(&group1)
+	if err = db.Model(&user).Association("Groups").Error; err != nil{
+		fmt.Println("===",err)
+	}
+	err = db.Model(&user).Association("Groups").Append(&group1)
+	fmt.Println("====",err)
 
-	defer db.Close()
+	aa,err := db.DB()
+	defer aa.Close()
 }
